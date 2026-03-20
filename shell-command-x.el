@@ -140,6 +140,9 @@ based on the simple format string variables
 - \"%p\": The name of the current project or the abbreviated
   directory name.
 
+- \"%t\": The current local datetime as an ISO 8601 string (no
+  timezone), e.g. \"2026-03-20T14:30:00\".
+
 See `shell-command-x-buffer-name-function' for information about
 the COMMAND and ASYNC-P arguments."
   (let* ((first-command (if (string-match shell-command-regexp command)
@@ -158,7 +161,8 @@ the COMMAND and ASYNC-P arguments."
                                     (name (and (fboundp 'project-name)
                                                (project-name project))))
                               name
-                            (abbreviate-file-name default-directory)))))))
+                            (abbreviate-file-name default-directory)))
+                   (?t . ,(format-time-string "%FT%T"))))))
 
 (defun shell-command-x-bob-exit-hook ()
   "Hook for `shell-command-x-exit-hook' to place point at beginning.
